@@ -169,6 +169,19 @@ def html():
         except:
             pass
 
+def singlehtml():
+    check_build()
+
+    with maybe_exclude_notebooks():
+        if os.system('sphinx-build -P -b singlehtml -d build/doctrees '
+                     'source build/html'):
+            raise SystemExit("Building HTML failed.")
+        try:
+            # remove stale file
+            os.remove('build/html/pandas.zip')
+        except:
+            pass
+
 
 def zip_html():
     try:
@@ -336,6 +349,7 @@ def _get_config():
 
 funcd = {
     'html': html,
+    'singlehtml': singlehtml,
     'zip_html': zip_html,
     'upload_dev': upload_dev,
     'upload_stable': upload_stable,
